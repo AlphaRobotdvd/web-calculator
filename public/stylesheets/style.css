@@ -1,0 +1,147 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #e1f3f3;
+}
+
+#userInput {
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+  width: 90%;
+}
+
+#result {
+  background-color: rgba(255, 255, 255, 0.66);
+  resize: none;
+  display: block;
+  width: 20%;
+  margin-left: 70%;
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 5px;
+  font-size: x-large;
+}
+
+#div_area {
+  text-align: center;
+}
+
+#ltx_out {
+  font-size: x-large;
+  background-color: rgba(255, 255, 255, 0.55);
+  align-content: center;
+  padding: 5px;
+  min-height: 70px;
+  max-height: max-content;
+  width: 400px;
+  margin: auto;
+  word-wrap: break-word;
+}
+
+.keypad-control-btn.input-btn {
+  background-color: aliceblue;
+}
+
+.keypad-control-btn.input-btn:hover {
+  background-color: #dce4ec;
+}
+
+.boxsizingBorder {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.keypad-control {
+  max-width: 400px;
+  margin: 10px auto;
+  background-color: azure;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px #cccccc;
+  padding: 20px;
+}
+
+.keypad-control .keypad-control-contents {
+  display: flex;
+  justify-content: center;
+}
+
+.keypad-control-btn {
+  min-width: 40px;
+  width: 120px;
+  margin: 2px;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  color: #000000;
+  font-size: 100%
+}
+
+.keypad-control-btn:hover {
+  background-color: rgba(246, 246, 246, 0.58);
+}
+
+.keypad-control-btn.selectable-btn {
+  padding: 0 5px;
+  height: 38px;
+  line-height: 40px
+}
+.degree {
+  font-size: x-large;
+  margin: 2px;
+}
+.rad {
+  font-size: large;
+  margin-left: 2px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 23px;
+}
+.switch input {display:none;}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
