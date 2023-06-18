@@ -1,0 +1,61 @@
+extends layout
+
+block content
+  h1.text-center $$ Визуальный\ калькулятор\ с\ \KaTeX $$
+  div(id='div_area')
+    textarea(id='userInput', placeholder="Набирайте текст так же, как вы бы его набирали в поисковой строке, например e^2/(log_5(10)-1)")
+  textarea(id='result', disabled, placeholder="Результат", rows="1")
+  .text-center(id='ltx_out')
+  script.
+    function processInput() {
+        const userInput = document.getElementById("userInput").value
+        let result = document.getElementById("result");
+        var request = new XMLHttpRequest()
+        console.log(encodeURIComponent(userInput))
+        request.open('GET', "http://127.0.0.1:8080/api.wolframalpha.com/v2/query?appid=26QAVH-5YU93YYK7T&input=" + encodeURIComponent(userInput) + "&format=plaintext&output=json", true)
+
+        request.onload = function () {
+            const data = JSON.parse(this.response)["queryresult"]["pods"]
+            if (data.find(obj => obj.title === "Definite integral") !== undefined) {
+                let str_res = data.find(obj => obj.title === "Definite integral")["subpods"][0]["plaintext"].toString()
+                if(str_res.indexOf("≈") !== -1) result.innerText = str_res.substring(str_res.indexOf("≈")+1)
+                else result.innerText = str_res.substring(str_res.lastIndexOf("=")+1)
+
+            }
+            else if (data.find(obj => obj.title === "Decimal approximation") !== undefined) result.innerText = data.find(obj => obj.title === "Decimal approximation")["subpods"][0]["plaintext"]
+            else if (data.find(obj => obj.title === "Result") !== undefined) result.innerText = data.find(obj => obj.title === "Result")["subpods"][0]["plaintext"]
+            else result.innerText = data.find(obj => obj.title === "Exact result")["subpods"][0]["plaintext"]
+            console.log(this.response)
+        }
+        request.send()
+    }
+    function insert(num){
+        const userInput = document.getElementById("userInput")
+        let s = userInput.value
+        const output = document.getElementById("ltx_out")
+        console.log('\\' + num)
+        userInput.value=s.slice(0, userInput.selectionStart) + '\\' + num + s.slice(userInput.selectionEnd)
+        katex.render(userInput.value, output,{
+            displayMode: true
+        })
+    }
+  div
+    .keypad-control(role="group")
+        .keypad-control-contents
+            button.keypad-control-btn(onclick="insert('sin(x)')") $$ \sin(x) $$
+            button.keypad-control-btn(onclick="insert('cos(x)')") $$ \cos(x) $$
+            button.keypad-control-btn(onclick="insert('tan(x)')") $$ \tan(x) $$
+        .keypad-control-contents
+            button.keypad-control-btn(onclick="insert('arcsin(x)')") $$ \sin^{-1}(x) $$
+            button.keypad-control-btn(onclick="insert('arccos(x)')") $$ \cos^{-1}(x) $$
+            button.keypad-control-btn(onclick="insert('arctan(x)')") $$ \tan^{-1}(x) $$
+        .keypad-control-contents
+            button.keypad-control-btn(onclick="insert('sqrt{x}')") $$ \sqrt{x} $$
+            button.keypad-control-btn(onclick="insert('sqrt[n]{x}')") $$ \sqrt[n]{x} $$
+            button.keypad-control-btn(onclick="insert('frac{a}{b}')") $$ \frac{a}{b} $$
+        .keypad-control-contents
+            button.keypad-control-btn(onclick="insert('int_{a}^{b} xdx')") $$ \int_{a}^{b} xdx $$
+            button.keypad-control-btn(onclick="insert('pi')") $$ \pi \ $$
+            button.keypad-control-btn.input-btn(onclick='processInput()') =
+  br
+
